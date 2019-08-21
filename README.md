@@ -17,11 +17,12 @@ For firmware modification you will need to install Atmel Studio.
 You can set up all working parameters just by editing definitions in .h file.
 Or you can flash .hex file with default parameters. 
 For firmware upload you will need Arduino or any ISP programmer, such as USBASP.
+Don't forget to flash Attiny fuses at first (combinations can be found in .h file).
 
 -Hardware.
 
 You can made pcb at home because it is optimised for DIY technologies, such as photoresist. Pattern for this can be found in .pdf file. In this case bottom layer is not required, you can made single-layer pcb with only 3 wired vias on bottom.
 Or You can order those pcbs from China here https://www.pcbway.com/project/shareproject/TinyFL_LED_Driver.html
 Also you will need some soldering skills to solder it. 
-To firmware uploading you can use SOIC-8 Clamp or you can directly solder thin wires to Attiny13 pads and connect it to programmer.
-Don't forget to flash Attiny fuses at first (combinations can be found in .h file).
+To firmware uploading you can use SOIC-8 Clamp or you can directly solder thin wires to Attiny pads and connect it to programmer.
+
