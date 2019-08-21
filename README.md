@@ -1,5 +1,5 @@
 # tinyfl_t
-This is DIY Attiny13-based driver for flashlights with brigh LEDs, such as CREE XM-L, XP-G and others.
+This is DIY Attiny13-based PWM driver for flashlights with brigh LEDs, such as CREE XM-L, XP-G and others.
 Version "T" - with tact switch.
 
 Benefits:
