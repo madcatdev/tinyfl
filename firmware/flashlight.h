@@ -1,7 +1,7 @@
 /*
 TinyFL v0.3_t - Simple AVR (Attiny13a) PWM LED driver
 *********************************************************************************
-Äðàéâåð ñâåòîäèîäà òèïà CREE íà Attiny13a, ØÈÌ 4.7 KHz, N-ch/P-ch òðàíçèñòîð, êíîïêà áåç ôèêñàöèè
+Драйвер светодиода типа CREE на Attiny13a, ШИМ 4.7 KHz, N-ch/P-ch транзистор, кнопка без фиксации
 sw version: 19.08.2019 0.3_t, hw version: v3_t
  
 FUSES [NON-INVERTED, 0 = programmed, 1 - unprogrammed (attiny13a datasheet, page 104)]
@@ -26,35 +26,35 @@ EESAVE = 0 (EEPROM will NOT be erased during programming)
 #define u8 uint8_t
 #define u16 uint16_t
 
-// Íàñòðîéêè äðàéâåðà
-#define RATE_MAX 255 // Ìàêñ. ÿðêîñòü (max = 255)
-#define RATE_MIN 0 // Ìèí. ÿðêîñòü (min = 0)
-#define RATE_REMEMBER // Çàïîìèíàòü òåêóùóþ ÿðêîñòü íà âðåìÿ ñíà
-#define RATE_NONLINEAR  // Íåëèíåéíûé ðåæèì èçìåíåíèÿ ÿðêîñòè (ãàììà-êîððåêöèÿ). RATE_STEP_DEF áóäåò ïðîèãíîðèðîâàí è rate_step ðàñ÷èòàí äèíàìè÷åñêè
-#define RATE_STEP_DEF 10 // Øàã èçìåíåíèÿ ÿðêîñòè
-#define RATE_STEP_LEN 30 // Âðåìÿ 1 øàãà â ìñ
+// Настройки драйвера
+#define RATE_MAX 255 // Макс. яркость (max = 255)
+#define RATE_MIN 0 // Мин. яркость (min = 0)
+#define RATE_REMEMBER // Запоминать текущую яркость на время сна
+#define RATE_NONLINEAR  // Нелинейный режим изменения яркости (гамма-коррекция). RATE_STEP_DEF будет проигнорирован и rate_step расчитан динамически
+#define RATE_STEP_DEF 10 // Шаг изменения яркости
+#define RATE_STEP_LEN 30 // Время 1 шага в мс
 
-#define BAT_CHECK // Ïðîâåðêà çàðÿäà áàòàðåè
-#define BAT_PERIOD 60000 // Èíòåðâàë ïðîâåðêè çàðÿäà áàòàðåè (ïðèìåðíîå), ìñ. Ðàç â ìèíóòó îïòèìàëüíî. uint16
-//#define BAT_PERIOD 1000 // Äëÿ êàëèáðîâêè
-#define BAT_WARNING 135 // Íàïðÿæåíèå ïðåäóïðåæäåíèÿ î ðàçðÿäå, 3.0 V 
-#define BAT_SHUTDOWN 115 // Íàïðÿæåíèå ïåðåõîäà â ñïÿùèé ðåæèì, 2.7 V
-#define BAT_INFO_STEP 3 // Êîë-âî åäèíèö ÀÖÏ íà îäíî ìèãàíèå ïðè èíäèêàöèè çàðÿäà
+#define BAT_CHECK // Проверка заряда батареи
+#define BAT_PERIOD 60000 // Интервал проверки заряда батареи (примерное), мс. Раз в минуту оптимально. uint16
+//#define BAT_PERIOD 1000 // Для калибровки
+#define BAT_WARNING 135 // Напряжение предупреждения о разряде, 3.0 V 
+#define BAT_SHUTDOWN 115 // Напряжение перехода в спящий режим, 2.7 V
+#define BAT_INFO_STEP 3 // Кол-во единиц АЦП на одно мигание при индикации заряда
 
 #define BTN_READ (!(PINB & _BV(1))) // Чтение состояния кнопки на PB1
-#define BTN_DBCLICK // Äâîéíîé êëèê, âêëþ÷åíèå äîï.ñâåòîäèîäà
-#define BTN_DBCLICK_DELAY 100 // Çàäåðæêà êëèêà, ìñ
-#define BTN_DBCLICK_LEN 100 // Äëèòåëüíîñòü êëèêà, ìñ
-#define BTN_ONOFF_DELAY 250 // Âðåìÿ íàæàòèÿ êíîïêè äî âõîäà â ðåæèì óïðàâëåíèÿ ÿðêîñòüþ, ìñ. uint16
+#define BTN_DBCLICK // Двойной клик, включение доп.светодиода
+#define BTN_DBCLICK_DELAY 100 // Задержка клика, мс
+#define BTN_DBCLICK_LEN 100 // Длительность клика, мс
+#define BTN_ONOFF_DELAY 250 // Время нажатия кнопки до входа в режим управления яркостью, мс. uint16
 
-#define AUXMODES // Äîï ðåæèìû, ìàÿê è ñòðîá
-#define AUXMODES_DELAY 10 // Çàäåðæêà äî âõîäà â äîï.ðåæèìû, x*0.125c
-#define STARTSLEEP // Çàñûïàåì ïîñëå ïîäà÷è ïèòàíèÿ íà äðàéâåð
-#define STARTBLINKS // Aux led ìèãàåò ðàçà ïðè ïîäà÷å ïèòàíèÿ
+#define AUXMODES // Доп режимы, маяк и строб
+#define AUXMODES_DELAY 10 // Задержка до входа в доп.режимы, x*0.125c
+#define STARTSLEEP // Засыпаем после подачи питания на драйвер
+#define STARTBLINKS // Aux led мигает раза при подаче питания
  
-// Íàñòðîéêà ïèíîâ è ðåæèìîâ ðàáîòû òðàíçèñòîðà
-//#define NCH // N-channel FET (n-êàíàëüíûé ïîëåâèê)
-#define PCH // P-channel FET (p-êàíàëüíûé ïîëåâèê)
+// Настройка пинов и режимов работы транзистора
+//#define NCH // N-channel FET (n-канальный полевик)
+#define PCH // P-channel FET (p-канальный полевик)
 #define LOAD_CONNECT DDRB |= 1; // LOAD Pin PB0
 #define LOAD_DISCONNECT DDRB &= ~1;
 #ifdef NCH 
@@ -66,15 +66,15 @@ EESAVE = 0 (EEPROM will NOT be erased during programming)
 	#define LOAD_OFF PORTB |= 1;
 	#endif
 #define LED_SETPIN DDRB |= _BV(2); // LED2 Pin
-#define LED_ON PORTB |= _BV(2); // ÂÊË LED2
-#define LED_OFF  PORTB &= ~_BV(2); // ÂÛÊË LED2
-#define LED_INV PORTB ^= _BV(2); // Èíâåðòèðîâàòü LED2
+#define LED_ON PORTB |= _BV(2); // ВКЛ LED2
+#define LED_OFF  PORTB &= ~_BV(2); // ВЫКЛ LED2
+#define LED_INV PORTB ^= _BV(2); // Инвертировать LED2
 
-#define PWM_ON TCCR0A |= _BV(COM0A1); // Âêëþ÷àåì ØÈÌ íà PB0
-#define PWM_OFF	TCCR0A &= ~_BV(COM0A1); // Îòêëþ÷àåì ØÈÌ íà PB0
+#define PWM_ON TCCR0A |= _BV(COM0A1); // Включаем ШИМ на PB0
+#define PWM_OFF	TCCR0A &= ~_BV(COM0A1); // Отключаем ШИМ на PB0
 
 
-// Ïðîòîòèïû ôóíêöèé
+// Прототипы функций
 int main(void);
 void wakeup(void);
 void setup(void);
