@@ -4,11 +4,13 @@ Version "T" - with tact switch.
 
 Benefits:
 - Working voltage: 2.3V - 5.5V, 4A maximum current (with SI2323 mosfet).
+- Extremely low power consumption at moonlight mode: only 5mA with XM-L led. With standart 18650 cell it will beam more than 20 days.
 - ON/OFF with single button click (tact switch button). 
 - Stepless brightness adjustment with gamma-correction, from moonlight to turbo. Brightness level is remembered for the time of shutdown.
 - Battery voltage control with power-off when battery is discharged (2.7V is the default voltage cut-off).
 - Two additional modes - emergency beacon and strobe. Additional led for backlighting.
 - Reverse polarity protection and ESD protection.
+
 
 How to made it:
 
