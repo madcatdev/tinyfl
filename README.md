@@ -3,7 +3,7 @@ This is DIY Attiny13-based driver for flashlights with brigh LEDs, such as CREE 
 Version "T" - with tact switch.
 
 Benefits:
-- ON/OFF with single button click (tact switch button). This was a main reason why i made this project.
+- ON/OFF with single button click (tact switch button). 
 - Stepless brightness adjustment with gamma-correction, from moonlight to turbo. Brightness level is remembered for the time of shutdown.
 - Battery voltage control with power-off when battery is discharged.
 - Two additional modes - emergency beacon and strobe. Additional led for backlighting
