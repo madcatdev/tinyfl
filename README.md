@@ -3,7 +3,7 @@ This is DIY Attiny13-based driver for flashlights with brigh LEDs, such as CREE 
 Version "T" - with tact switch.
 
 Benefits:
-- Working voltage: 1.8V - 4.5V, 4A maximum current (with SI2323 mosfet).
+- Working voltage: 2.3V - 5.5V, 4A maximum current (with SI2323 mosfet).
 - ON/OFF with single button click (tact switch button). 
 - Stepless brightness adjustment with gamma-correction, from moonlight to turbo. Brightness level is remembered for the time of shutdown.
 - Battery voltage control with power-off when battery is discharged (2.7V is the default voltage cut-off).
