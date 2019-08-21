@@ -10,13 +10,16 @@ Benefits:
 - Reverse polarity protection and ESD protection.
 
 How to made it:
+
 -Firmware.
+
 For firmware modification you will need to install Atmel Studio.
 You can set up all working parameters just by editing definitions in .h file.
 Or you can flash .hex file with default parameters. 
 For firmware upload you will need Arduino or any ISP programmer, such as USBASP.
 
 -Hardware.
+
 You can made pcb at home because it is optimised for DIY technologies, such as photoresist. Pattern for this can be found in .pdf file. In this case bottom layer is not required, you can made single-layer pcb with only 3 wired vias on bottom.
 Or You can order those pcbs from China here https://www.pcbway.com/project/shareproject/TinyFL_LED_Driver.html
 Also you will need some soldering skills to solder it. 
