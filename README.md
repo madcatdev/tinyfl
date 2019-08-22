@@ -28,4 +28,4 @@ You can made pcb at home because it is optimised for DIY technologies, such as p
 Or You can order those pcbs from China here https://www.pcbway.com/project/shareproject/TinyFL_LED_Driver.html
 Also you will need some soldering skills to solder it. 
 To firmware uploading you can use SOIC-8 Clamp or you can directly solder thin wires to Attiny pads and connect it to programmer.
-
+Example of connection diagram can be found here https://hsto.org/webt/y9/03/kb/y903kbuy01sk-gi6vz3e93621v8.png
