@@ -23,8 +23,8 @@ EESAVE = 0 (EEPROM will NOT be erased during programming)
 #include <avr/interrupt.h>
 
 #define nop __asm__ __volatile__ ("nop");
-#define u8 uint8_t
-#define u16 uint16_t
+typedef uint8_t u8;
+typedef uint16_t u16;
 
 // Настройки драйвера
 #define RATE_MAX 255 // Макс. яркость (max = 255)
