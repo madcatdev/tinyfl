@@ -16,7 +16,7 @@ How to made it:
 
 Firmware
 
-For firmware modification you will need to install Atmel Studio.
+For firmware modification you will need to install Arduino IDE with Attiny13 support or Atmel Studio.
 You can set up all working parameters just by editing definitions in .h file.
 Or you can flash .hex file with default parameters. 
 For firmware upload you will need Arduino or any ISP programmer, such as USBASP.
