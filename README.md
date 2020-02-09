@@ -25,6 +25,7 @@ Hardware
 You can make the PCB at home because it its layout is based off DIY technologies, such as photoresist. The Pattern for this can be found in the .pdf file. 
 In this case, bottom layer is not required, you can make a single-layer PCB with only 3 copper-wired vias on the bottom. 
 Or You can order those PCBs from China here https://www.pcbway.com/project/shareproject/TinyFL_LED_Driver.html 
+
 You will also need some soldering skills in order to solder it. For firmware uploading you can use an SOIC-8 Test Clip or you can directly solder thin wires to Attiny pads and connect them to a programmer.
 
 Detailed project description and history of creation is here (in Russian) https://habr.com/ru/post/464673/
