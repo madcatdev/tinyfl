@@ -22,7 +22,7 @@ Don't forget to flash Attiny fuses at first (combinations can be found in .h fil
 Hardware
 
 
-You can make the PCB at home because it its layout is based off DIY technologies, such as photoresist. The Pattern for this can be found in the .pdf file. 
+You can make the PCB at home because its layout is based off DIY technologies, such as photoresist. The Pattern for this can be found in the .pdf file. 
 In this case, bottom layer is not required, you can make a single-layer PCB with only 3 copper-wired vias on the bottom. 
 Or You can order those PCBs from China here https://www.pcbway.com/project/shareproject/TinyFL_LED_Driver.html 
 
