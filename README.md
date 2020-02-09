@@ -4,7 +4,9 @@ This is a DIY Attiny13-based PWM driver for flashlights with bright LEDs, such a
 Capabilities and benefits:
 
 -ON/OFF with a single button click (tact switch button).
+
 -Working voltage: 2.3V - 5.5V, 4A maximum current (with SI2323 mosfet).
+
 -Extremely low power consumption at moonlight mode: only 5mA with XM-L led. With standart 18650 cell it will shine more than 20 days.
 -Stepless brightness adjustment with gamma-correction, from moonlight to turbo. Brightness level is remembered until shutdown, and is preserved in sleep mode.
 -Battery voltage control with auto power-off when battery is discharged (2.7V is the default voltage cut-off).
