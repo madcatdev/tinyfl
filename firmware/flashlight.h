@@ -2,14 +2,7 @@
 TinyFL v0.3_t - Simple AVR (Attiny13a) PWM LED driver
 *********************************************************************************
 Драйвер светодиода типа CREE на Attiny13a, ШИМ 4.7 KHz, N-ch/P-ch транзистор, кнопка без фиксации
-sw version: 19.08.2019 0.3_t, hw version: v3_t
- 
-FUSES [NON-INVERTED, 0 = programmed, 1 - unprogrammed (attiny13a datasheet, page 104)]
-(E:FF, H:FD, L:6A)
-BODLEVEL1:0 = 10 (BODLEVEL =  1.8V)
-CKSEL1:0 = 10 (internal rc 9.6MHz)
-CKDIV8 = 0 (9.6 / 8 = 1.2MHz)  
-EESAVE = 0 (EEPROM will NOT be erased during programming)
+sw version: 19.08.2019 0.4, hw version: v3_t
 */
 
 #ifndef FLASHLIGHT_H_
@@ -33,12 +26,13 @@ typedef uint16_t u16;
 #define RATE_NONLINEAR  // Нелинейный режим изменения яркости (гамма-коррекция). RATE_STEP_DEF будет проигнорирован и rate_step расчитан динамически
 #define RATE_STEP_DEF 10 // Шаг изменения яркости
 #define RATE_STEP_LEN 30 // Время 1 шага в мс
+#define RATE_DEFAULT RATE_MIN // Яркость по умолчанию (при первом включении, если не объявлен RATE_REMEMBER - при каждом включении)
 
 #define BAT_CHECK // Проверка заряда батареи
 #define BAT_PERIOD 60000 // Интервал проверки заряда батареи (примерное), мс. Раз в минуту оптимально. uint16
 //#define BAT_PERIOD 1000 // Для калибровки
-#define BAT_WARNING 135 // Напряжение предупреждения о разряде, 3.0 V 
-#define BAT_SHUTDOWN 115 // Напряжение перехода в спящий режим, 2.7 V
+#define BAT_WARNING 110 // Напряжение предупреждения о разряде, 135 - 3.0 V 
+#define BAT_SHUTDOWN 90 // Напряжение перехода в спящий режим, 115 - 2.7 V
 #define BAT_INFO_STEP 3 // Кол-во единиц АЦП на одно мигание при индикации заряда
 
 #define BTN_READ (!(PINB & _BV(1))) // Чтение состояния кнопки на PB1
@@ -51,12 +45,13 @@ typedef uint16_t u16;
 #define AUXMODES_DELAY 10 // Задержка до входа в доп.режимы, x*0.125c
 #define STARTSLEEP // Засыпаем после подачи питания на драйвер
 #define STARTBLINKS // Aux led мигает раза при подаче питания
- 
+#define STARTDELAY 5 // Задержка при включении, мс. Для помехозащиты рекомендуется 5-10
+
 // Настройка пинов и режимов работы транзистора
 //#define NCH // N-channel FET (n-канальный полевик)
 #define PCH // P-channel FET (p-канальный полевик)
 #define LOAD_CONNECT DDRB |= 1; // LOAD Pin PB0
-#define LOAD_DISCONNECT DDRB &= ~1;
+#define LOAD_DISCONNECT DDRB &= ~1; 
 #ifdef NCH 
 	#define LOAD_ON PORTB |= 1; // PB0
 	#define LOAD_OFF PORTB &= ~1;
