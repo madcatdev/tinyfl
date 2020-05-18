@@ -6,20 +6,20 @@
 
 #include "flashlight.h"
 
-volatile u8 rate = RATE_MIN; // Яркость нагрузки, 0 - выключен, 255 - максимальная (ШИМ)
+volatile u8 rate = RATE_DEFAULT; // Яркость нагрузки, 0 - выключен, 255 - максимальная (ШИМ)
 volatile u8 rate_dir = 0; // Направление изменения яркости нагрузки, 1 - прибавить ШИМ, 0 - убавить ШИМ
 u8 rate_step_array[12] = {10,25,50,60,75,80,90,120,130,140,150,RATE_MAX}; // Массив точек кривой гамма-коррекции, в конце обязательно maxrate
 bool led_state = false; // Состояние заднего светодиода LED2
 
 int main(void)	{
-	setup();	
+	setup();
 	wakeup();
 	
-	u16 bat_time = 0; // счетчик времени для проверки заряда, при >=bat_time выполняем првоерку
+	u16 bat_time = 0; 
 	
 	while(1)    {
 		
-		if (BTN_READ){ // Отслеживаем нажатие кнопки POWER/ADJ (PB1)
+		if (BTN_READ){ 
 			u16 x = 0;
 			while ( (BTN_READ) && (x++ < BTN_ONOFF_DELAY) )  // Посчитаем, сколько времени нажата кнопка. 
 				_delay_ms(1);
@@ -35,7 +35,7 @@ int main(void)	{
 
 		#ifdef BAT_CHECK
 		if (bat_time >= BAT_PERIOD)  { // Проверка заряда батареи через определенный интервал
-			bat_time = 0; // Обнуляем
+			bat_time = 0; 
 			bat_check();
 		}
 		bat_time++;
@@ -54,8 +54,9 @@ void wakeup(void) {
 	LOAD_CONNECT;
 	PWM_ON;
 	#ifndef RATE_REMEMBER // Если нет памяти яркости
-	rate = RATE_MIN; // включается сразу на мин. яркость
+	rate = RATE_DEFAULT; // включается сразу на мин. яркость
 	#endif
+	OCR0A = rate;
 	
 	ADCSRA |= _BV(ADPS1) | _BV(ADPS0) | _BV(ADEN); // Предделитель частоты, включение АЦП
 	bat_getvoltage(); // Пробный запуск АЦП (первый блин комом, где-то в даташите про это было)
@@ -69,7 +70,7 @@ void setup(void) {
 
 	// PB0 - Led CREE (OC0A шим-канал, транзистор), изначально ВЫКЛ
 	//LOAD_CONNECT; 
-	//LOAD_OFF; 
+	LOAD_OFF; 
 	
 	// PB1 - Кнопка POWER/ADJ, оно же INT0, Flip-Flop. Внутр.подтяжка к питанию
 	PORTB |= _BV(1);
@@ -92,6 +93,7 @@ void setup(void) {
 	ADMUX |= _BV(REFS0); // Внутренний ИОН 1.1V
 
 	ACSR |= _BV(ACD); // Отключаем компаратор (по умолчанию включен)
+	
 	
 	pwm_setup(); // Настройка таймера
 	PWM_OFF;
@@ -117,21 +119,29 @@ void sleep(void){
 	
 	ADCSRA &= ~_BV(ADEN); // Отключаем АЦП
 	
-	// Настройка параметров сна
-	GIMSK |= _BV(INT0); // ВКЛ прерывание INT0
-	MCUCR &= ~(_BV(ISC01) | _BV(ISC00)); // INT0 по низкому уровню
-	set_sleep_mode(SLEEP_MODE_PWR_DOWN); // Режим power-down
+	
 
-	// Основной цикл сна, последовательность не менять!
-	sleep_enable();
-	cli();
-	sei(); // Включаем прерывания, иначе не проснемся
-	sleep_cpu(); // Собственно сон
-	cli(); // Проснулись, чифирнулись, отключили прерывания
-	GIMSK = 0x00; // Отключаем INT0
-	sleep_disable();
-	sei();                         
-	// Пробуждаемся
+	while (true) {
+		// Настройка параметров сна
+		GIMSK |= _BV(INT0); // ВКЛ прерывание INT0
+		MCUCR &= ~(_BV(ISC01) | _BV(ISC00)); // INT0 по низкому уровню
+		set_sleep_mode(SLEEP_MODE_PWR_DOWN);
+		
+		// Основной цикл сна, последовательность не менять!
+		sleep_enable();
+		cli();
+		sei(); // Включаем прерывания, иначе не проснемся
+		sleep_cpu(); // Собственно сон
+		cli(); // Проснулись, чифирнулись, отключили прерывания
+		GIMSK = 0x00; // Отключаем INT0
+		sleep_disable();
+		sei();                         
+		// Пробуждаемся
+		
+		// Проверка на длительность импульса включения (защита от наносекундных помех)
+		_delay_ms(STARTDELAY);
+		if (BTN_READ) break;
+	}
 
 	wakeup(); // Настроим МК и включим периферию
 }
@@ -185,7 +195,7 @@ void longpress(void) {
 	u8 x = 0; // Счетчик циклов для перехода в доп.режим
 	rate_dir =~rate_dir; // Инвертируем направление (больше/меньше % ШИМ)
 
-	while (BTN_READ) { // Пока кнопка нажата, изменяем значение rate (~40 раз в секунду)
+	while (BTN_READ) { // Пока кнопка нажата, изменяем значение rate 
 		_delay_ms(RATE_STEP_LEN);
 		// Определим rate_step в зависимости от текущего rate
 		// Это сделано для компенсации нелинейной зависимости яркости СД от значения ШИМ (гамма-коррекция)
@@ -228,7 +238,7 @@ void longpress(void) {
 		// Входим в подрограмму доп.режима, если прошла активация (125+125)*10 = 2500мс удержания
 		if (x > AUXMODES_DELAY) {
 			#ifdef AUXMODES		
-			while (BTN_READ); // Ждем, пока отпустят кнопку	
+			while (BTN_READ); 
 			_delay_ms(250); 
 			PWM_OFF;
 			LED_OFF;
@@ -256,9 +266,9 @@ void shortpress(void) {
 	LOAD_OFF;
 	LOAD_DISCONNECT;
 	LED_OFF;
-	u8 y = 0;
 	_delay_ms(BTN_DBCLICK_DELAY);
 	
+	u8 y = 0;
 	while ((y++ < BTN_DBCLICK_LEN) && (!BTN_READ))  // Ждем клик в течении определенного интервала
 		_delay_ms(1);
 			
@@ -284,13 +294,10 @@ u8 bat_getvoltage(void) {
 	
 	Формула расчета напряжения из ацп: ADC = (Vin/Kdiv) * 256
 	Коэфициент Vraw mv/raw = (Vion/256)*Kdiv
-	Расчет Kmv по Vraw и Vin = Vin/Vraw = 26.6 mV
-	
-	Для делителя /4.41: 174.15 и 162.54 соответственно
 	*/
 	PWM_OFF;
 	LED_OFF;
-	_delay_ms(1); // Стабилизируем напряжение после отключения мощной нагрузки, Занимает 12 байт
+	_delay_us(500); // Стабилизируем напряжение после отключения мощной нагрузки, Занимает 12 байт
 	ADCSRA |= _BV(ADSC); // Начинаем преобразование
 	while (ADCSRA & _BV(ADSC)); // ждем окончания преобразования
 	PWM_ON;
