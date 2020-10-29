@@ -4,7 +4,7 @@
  * Last version: 20.10.2020 (0.5)
  * (c) madcatdev https://github.com/madcatdev
  *---------
- * Драйвер светодиода типа CREE на Attiny13a, ШИМ 4.7 KHz, N-ch/P-ch транзистор, кнопка без фиксации
+ * Р”СЂР°Р№РІРµСЂ СЃРІРµС‚РѕРґРёРѕРґР° С‚РёРїР° CREE РЅР° Attiny13a, РЁРРњ 4.7 KHz, N-ch/P-ch С‚СЂР°РЅР·РёСЃС‚РѕСЂ, РєРЅРѕРїРєР° Р±РµР· С„РёРєСЃР°С†РёРё
 */
 
 
@@ -12,7 +12,7 @@
 #define MAIN_H_
 
 // Frequency definition for gcc. Do not forget to set proper fuses.
-// Определение частоты для компилятора. Не забудь выставить частоту фьюзами. 
+// РћРїСЂРµРґРµР»РµРЅРёРµ С‡Р°СЃС‚РѕС‚С‹ РґР»СЏ РєРѕРјРїРёР»СЏС‚РѕСЂР°. РќРµ Р·Р°Р±СѓРґСЊ РІС‹СЃС‚Р°РІРёС‚СЊ С‡Р°СЃС‚РѕС‚Сѓ С„СЊСЋР·Р°РјРё. 
 #define F_CPU 1200000UL  // Attiny13 1.2MHz / PWM 4.6 KHz / CKDIV8 = 0
 //#define F_CPU 9600000UL  // Attiny13 9.6MHz / PWM 36.8 KHz / CKDIV8 = 1
 
@@ -29,97 +29,97 @@ typedef uint16_t u16;
 //-------------------------------------
 
 // Driver settings 
-// Настройки драйвера
+// РќР°СЃС‚СЂРѕР№РєРё РґСЂР°Р№РІРµСЂР°
 
 // MAX brightness (max = 255) 
-// Макс. яркость
+// РњР°РєСЃ. СЏСЂРєРѕСЃС‚СЊ
 #define RATE_MAX 250 
 // MIN brightness (min = 0)	
-// Мин. яркость
+// РњРёРЅ. СЏСЂРєРѕСЃС‚СЊ
 #define RATE_MIN 0 
 // Restore brightness level when wakin up 
-// Запоминать текущую яркость на время сна
+// Р—Р°РїРѕРјРёРЅР°С‚СЊ С‚РµРєСѓС‰СѓСЋ СЏСЂРєРѕСЃС‚СЊ РЅР° РІСЂРµРјСЏ СЃРЅР°
 #define RATE_REMEMBER 
 // Non-linear brightness mode (gamma-correction). RATE_STEP_DEF will be ignores and rate_step will be calculated on the go
-// Нелинейный режим изменения яркости (гамма-коррекция). RATE_STEP_DEF будет проигнорирован и rate_step расчитан динамически
+// РќРµР»РёРЅРµР№РЅС‹Р№ СЂРµР¶РёРј РёР·РјРµРЅРµРЅРёСЏ СЏСЂРєРѕСЃС‚Рё (РіР°РјРјР°-РєРѕСЂСЂРµРєС†РёСЏ). RATE_STEP_DEF Р±СѓРґРµС‚ РїСЂРѕРёРіРЅРѕСЂРёСЂРѕРІР°РЅ Рё rate_step СЂР°СЃС‡РёС‚Р°РЅ РґРёРЅР°РјРёС‡РµСЃРєРё
 #define RATE_NONLINEAR  
 // Brightness adjustment step
-// Шаг изменения яркости
+// РЁР°Рі РёР·РјРµРЅРµРЅРёСЏ СЏСЂРєРѕСЃС‚Рё
 #define RATE_STEP_DEF 10 
 // Length of brightness adjustment step (ms)
-// Длительность одного шага изменения яркости (мс)
+// Р”Р»РёС‚РµР»СЊРЅРѕСЃС‚СЊ РѕРґРЅРѕРіРѕ С€Р°РіР° РёР·РјРµРЅРµРЅРёСЏ СЏСЂРєРѕСЃС‚Рё (РјСЃ)
 #define RATE_STEP_LEN 30 
 // Default brightness (when battery connected, or when each wakeup, if RATE_REMEMBER is not defined)
-// Яркость по умолчанию (при первом включении, если не объявлен RATE_REMEMBER - при каждом включении)
+// РЇСЂРєРѕСЃС‚СЊ РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ (РїСЂРё РїРµСЂРІРѕРј РІРєР»СЋС‡РµРЅРёРё, РµСЃР»Рё РЅРµ РѕР±СЉСЏРІР»РµРЅ RATE_REMEMBER - РїСЂРё РєР°Р¶РґРѕРј РІРєР»СЋС‡РµРЅРёРё)
 #define RATE_DEFAULT RATE_MIN 
 // Battery voltage check
-// Проверка заряда батареи
+// РџСЂРѕРІРµСЂРєР° Р·Р°СЂСЏРґР° Р±Р°С‚Р°СЂРµРё
 #define BAT_CHECK 
 // Battery voltage check interval (ms). Once per minute is optimal for me. Maximum is 65s (65535)
-// Интервал проверки заряда батареи (примерное), мс. Раз в минуту оптимально. 65с максимально (65535)
+// РРЅС‚РµСЂРІР°Р» РїСЂРѕРІРµСЂРєРё Р·Р°СЂСЏРґР° Р±Р°С‚Р°СЂРµРё (РїСЂРёРјРµСЂРЅРѕРµ), РјСЃ. Р Р°Р· РІ РјРёРЅСѓС‚Сѓ РѕРїС‚РёРјР°Р»СЊРЅРѕ. 65СЃ РјР°РєСЃРёРјР°Р»СЊРЅРѕ (65535)
 //#define BAT_PERIOD 60000 
-#define BAT_CHECK_PERIOD 1000 // For easy calibration | Для калибровки
+#define BAT_CHECK_PERIOD 1000 // For easy calibration | Р”Р»СЏ РєР°Р»РёР±СЂРѕРІРєРё
 // Battery warning voltage, 135 is about 3.0V
-// Напряжение предупреждения о разряде, 135 ~ 3.0 V
+// РќР°РїСЂСЏР¶РµРЅРёРµ РїСЂРµРґСѓРїСЂРµР¶РґРµРЅРёСЏ Рѕ СЂР°Р·СЂСЏРґРµ, 135 ~ 3.0 V
 #define BAT_WARNING 195 
 // Shutdown voltage, 115 is about 2.7V
-// Напряжение перехода в спящий режим, 115 ~ 2.7 V
+// РќР°РїСЂСЏР¶РµРЅРёРµ РїРµСЂРµС…РѕРґР° РІ СЃРїСЏС‰РёР№ СЂРµР¶РёРј, 115 ~ 2.7 V
 #define BAT_SHUTDOWN 180 
 // ADC raw units per one warning blink (when battery is low)
-// Кол-во единиц АЦП на одно мигание при индикации заряда
+// РљРѕР»-РІРѕ РµРґРёРЅРёС† РђР¦Рџ РЅР° РѕРґРЅРѕ РјРёРіР°РЅРёРµ РїСЂРё РёРЅРґРёРєР°С†РёРё Р·Р°СЂСЏРґР°
 #define BAT_INFO_STEP 3 
 // Button reading on PB1
-// Чтение состояния кнопки на PB1
+// Р§С‚РµРЅРёРµ СЃРѕСЃС‚РѕСЏРЅРёСЏ РєРЅРѕРїРєРё РЅР° PB1
 #define BTN_READ (!(PINB & _BV(1))) 
 // Double click turns on LED_BACK 
-// Двойной клик, включение доп.светодиода
+// Р”РІРѕР№РЅРѕР№ РєР»РёРє, РІРєР»СЋС‡РµРЅРёРµ РґРѕРї.СЃРІРµС‚РѕРґРёРѕРґР°
 #define BTN_DBCLICK 
 // Double click delay, ms
-// Задержка клика, мс
+// Р—Р°РґРµСЂР¶РєР° РєР»РёРєР°, РјСЃ
 #define BTN_DBCLICK_DELAY 100 
 // Double click length, ms
-// Длительность клика, мс
+// Р”Р»РёС‚РµР»СЊРЅРѕСЃС‚СЊ РєР»РёРєР°, РјСЃ
 #define BTN_DBCLICK_LEN 100 
 // Time between button pressed and sleep mode, ms.
-// Время нажатия кнопки до входа в режим управления яркостью, мс. uint16
+// Р’СЂРµРјСЏ РЅР°Р¶Р°С‚РёСЏ РєРЅРѕРїРєРё РґРѕ РІС…РѕРґР° РІ СЂРµР¶РёРј СѓРїСЂР°РІР»РµРЅРёСЏ СЏСЂРєРѕСЃС‚СЊСЋ, РјСЃ. uint16
 #define BTN_ONOFF_DELAY 250 
 // Additional modes, beacon and strobe
-// Доп режимы, маяк и строб
+// Р”РѕРї СЂРµР¶РёРјС‹, РјР°СЏРє Рё СЃС‚СЂРѕР±
 #define AUXMODES 
 // Delay beetween entering these modes, x*0.125s
-// Задержка до входа в доп.режимы, x*0.125c
+// Р—Р°РґРµСЂР¶РєР° РґРѕ РІС…РѕРґР° РІ РґРѕРї.СЂРµР¶РёРјС‹, x*0.125c
 #define AUXMODES_DELAY 10 
 // Sleep after battery connected for the first time
-// Засыпаем после подачи питания на драйвер
+// Р—Р°СЃС‹РїР°РµРј РїРѕСЃР»Рµ РїРѕРґР°С‡Рё РїРёС‚Р°РЅРёСЏ РЅР° РґСЂР°Р№РІРµСЂ
 #define STARTSLEEP 
 // Indication when battery connected for the first time (wery useful sometimes)
-// Индикация подачи питания при помощи LED_BACK (удобно при прошивке)
+// РРЅРґРёРєР°С†РёСЏ РїРѕРґР°С‡Рё РїРёС‚Р°РЅРёСЏ РїСЂРё РїРѕРјРѕС‰Рё LED_BACK (СѓРґРѕР±РЅРѕ РїСЂРё РїСЂРѕС€РёРІРєРµ)
 #define STARTBLINKS 
 // Turn-on delay, ms. For EMP immunity value between 5-10 is recomended 
-// Задержка при включении, мс. Для помехозащиты рекомендуется 5-10
+// Р—Р°РґРµСЂР¶РєР° РїСЂРё РІРєР»СЋС‡РµРЅРёРё, РјСЃ. Р”Р»СЏ РїРѕРјРµС…РѕР·Р°С‰РёС‚С‹ СЂРµРєРѕРјРµРЅРґСѓРµС‚СЃСЏ 5-10
 #define STARTDELAY 5 
 
 // Peripheral setup
-// Настройка пинов, типа транзистора и таймеров
-//#define NCH // N-channel FET | N-канальный полевик
-#define PCH // P-channel FET | P-канальный полевик)
+// РќР°СЃС‚СЂРѕР№РєР° РїРёРЅРѕРІ, С‚РёРїР° С‚СЂР°РЅР·РёСЃС‚РѕСЂР° Рё С‚Р°Р№РјРµСЂРѕРІ
+//#define NCH // N-channel FET | N-РєР°РЅР°Р»СЊРЅС‹Р№ РїРѕР»РµРІРёРє
+#define PCH // P-channel FET | P-РєР°РЅР°Р»СЊРЅС‹Р№ РїРѕР»РµРІРёРє)
 #ifdef NCH
 	#define LED_MAIN_on PORTB |= 1; // PB0
 	#define LED_MAIN_off PORTB &= ~1;
-	// 10 - установка 0 на выводе OC0A при совпадении с A, установка 1 на выводе OC0A при обнулении счётчика (неинверсный режим)
+	// 10 - СѓСЃС‚Р°РЅРѕРІРєР° 0 РЅР° РІС‹РІРѕРґРµ OC0A РїСЂРё СЃРѕРІРїР°РґРµРЅРёРё СЃ A, СѓСЃС‚Р°РЅРѕРІРєР° 1 РЅР° РІС‹РІРѕРґРµ OC0A РїСЂРё РѕР±РЅСѓР»РµРЅРёРё СЃС‡С‘С‚С‡РёРєР° (РЅРµРёРЅРІРµСЂСЃРЅС‹Р№ СЂРµР¶РёРј)
 	#define PWM_on TCCR0A |= _BV(COM0A1);
-	#define PWM_off	TCCR0A &= ~_BV(COM0A1); // Отключаем ШИМ на PB0
+	#define PWM_off	TCCR0A &= ~_BV(COM0A1); // РћС‚РєР»СЋС‡Р°РµРј РЁРРњ РЅР° PB0
 #endif
 #ifdef PCH
 	#define LED_MAIN_on PORTB &= ~1;
 	#define LED_MAIN_off PORTB |= 1;
-	// 11 - установка 1 на выводе OC0A при совпадении с A, установка 0 на выводе OC0A при обнулении счётчика (инверсный режим)
+	// 11 - СѓСЃС‚Р°РЅРѕРІРєР° 1 РЅР° РІС‹РІРѕРґРµ OC0A РїСЂРё СЃРѕРІРїР°РґРµРЅРёРё СЃ A, СѓСЃС‚Р°РЅРѕРІРєР° 0 РЅР° РІС‹РІРѕРґРµ OC0A РїСЂРё РѕР±РЅСѓР»РµРЅРёРё СЃС‡С‘С‚С‡РёРєР° (РёРЅРІРµСЂСЃРЅС‹Р№ СЂРµР¶РёРј)
 	#define PWM_on TCCR0A |= _BV(COM0A1) | _BV(COM0A0);
 	#define PWM_off	TCCR0A &= ~(_BV(COM0A1) | _BV(COM0A0));
 #endif
-#define LED_BACK_on PORTB |= _BV(2); // ВКЛ LED2
-#define LED_BACK_off  PORTB &= ~_BV(2); // ВЫКЛ LED2
-#define LED_BACK_inv PORTB ^= _BV(2); // Инвертировать LED2
+#define LED_BACK_on PORTB |= _BV(2); // Р’РљР› LED2
+#define LED_BACK_off  PORTB &= ~_BV(2); // Р’Р«РљР› LED2
+#define LED_BACK_inv PORTB ^= _BV(2); // РРЅРІРµСЂС‚РёСЂРѕРІР°С‚СЊ LED2
 
 
 int main(void);
