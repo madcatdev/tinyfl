@@ -1,4 +1,4 @@
-# tinyfl_t
+# tinyfl
 This is a DIY Attiny13-based PWM driver for flashlights with bright LEDs, such as CREE XM-L, XP-G and others. Version "T" - with tact switch.
 
 Capabilities and benefits:
