@@ -5,8 +5,8 @@
  You may need to install Attiny13 package (core) to Arduino.
  
  TinyFL - простой ШИМ-драйвер светодиода для Attiny13
- Исходный код находится в main.c, а настройки в main.h
+ Исходный код находится в src/main.c, а настройки в src/main.h
  Для компиляции через Arduino IDE, выберите Tools>Board>Attiny13(a) и Tools>Frequency>1.2MHz
  Возможно, для корректной работы потребуется установка пакета (core) Attiny13.
 */
-#include "main.h"
+#include "src/main.h"

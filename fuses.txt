@@ -1,0 +1,12 @@
+FUSES [NON-INVERTED, 0 = programmed (true), 1 - unprogrammed (false) (attiny13a datasheet, page 104)]
+
+(E:FF, H:FD, L:6A)
+
+H Fuse:
+BODLEVEL1:0 = 10 (BODLEVEL =  1.8V)
+RSTDISBL = 1 (Reset disable = false)
+
+L Fuse:
+EESAVE = 1 (EEPROM will NOT be erased during programming)
+CKDIV8 = 0 (9.6 / 8 = 1.2MHz)  
+CKSEL1:0 = 10 (internal rc 9.6MHz)
