@@ -18,7 +18,7 @@ bool led_state = false;
 
 
 int main(void)	{
-	setup();
+	init_mcu();
 	
 	// Main LOOP
 	u16 bat_time = 0; 
@@ -56,7 +56,7 @@ int main(void)	{
 ISR(INT0_vect) {}	
  
 // Инициализация МК после подачи питания
-void setup(void){
+void init_mcu(void){
 	// Настройка АЦП. Attiny13 datasheet, page 92
 	ADMUX = _BV(MUX1) | // [1:0] = 1:0 (ADC2)
 	_BV(ADLAR) | // Отсекаем 2 младших бита, получаем 8-битное разрешение
@@ -92,7 +92,7 @@ void setup(void){
 	#endif
 }
  
-// Инициализация МК после сна и после setup()
+// Инициализация МК после сна и после init_mcu()
 void wakeup(void) {
 	//rate_dir = 0;
 	if (led_state) 
