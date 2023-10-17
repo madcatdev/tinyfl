@@ -144,7 +144,7 @@ typedef uint16_t u16;
 #define BTN_READ (!(PINB & _BV(1)))
 
 int main(void);
-static void setup(void);
+static void init_mcu(void);
 static void wakeup(void);
 void sleep(void);
 static void beacon(void);
